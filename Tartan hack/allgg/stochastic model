@@ -1,0 +1,45 @@
+from pyomo.environ import *
+from pyomo.opt import SolverFactory
+
+# Initialize the model
+model = ConcreteModel()
+
+# Sets
+destinations = ['Dest1', 'Dest2', 'Dest3']
+
+# Parameters
+transport_costs = {'Dest1': 2, 'Dest2': 2.5, 'Dest3': 1.8}
+demand_scenarios = {'Low': 0.3, 'Medium': 0.5, 'High': 0.2}
+demand_values = {'Dest1': {'Low': 100, 'Medium': 150, 'High': 200},
+                 'Dest2': {'Low': 80, 'Medium': 130, 'High': 180},
+                 'Dest3': {'Low': 90, 'Medium': 140, 'High': 190}}
+penalty_cost = 5
+
+# Variables
+model.shipments = Var(destinations, within=NonNegativeReals)
+model.unmet_demand = Var(destinations, within=NonNegativeReals)
+
+# Objective: Minimize transportation cost and penalty for unmet demand
+def objective_rule(model):
+    transport_cost = sum(transport_costs[d] * model.shipments[d] for d in destinations)
+    expected_penalty = sum(demand_scenarios[s] * penalty_cost * model.unmet_demand[d]
+                           for d in destinations for s in demand_scenarios)
+    return transport_cost + expected_penalty
+
+model.objective = Objective(rule=objective_rule, sense=minimize)
+
+# Constraints
+def demand_constraint_rule(model, dest, scenario):
+    demand = demand_values[dest][scenario]
+    return model.shipments[dest] + model.unmet_demand[dest] >= demand
+
+model.demand_constraints = Constraint(destinations, demand_scenarios.keys(), rule=demand_constraint_rule)
+
+# Solve the model
+solver = SolverFactory('glpk', executable='/opt/homebrew/bin/glpsol')
+solver.solve(model)
+
+# Print the solution
+for dest in destinations:
+    print(f"Shipments to {dest}: {model.shipments[dest].value}")
+    print(f"Unmet Demand Penalty for {dest}: {model.unmet_demand[dest].value}")

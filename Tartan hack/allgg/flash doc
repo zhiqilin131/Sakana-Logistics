@@ -1,0 +1,12 @@
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    # Your Python code here
+    # For example, let's just pass a string to be displayed on the webpage
+    message = "Hello from Python!"
+    return render_template('index.html', message=message)
+
+if __name__ == '__main__':
+    app.run(debug=True)

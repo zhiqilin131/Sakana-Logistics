@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCberlVMKH6hJXlSl1DS56LXmY1Mciste4" async defer></script>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        let map;
+
+        // Function to initialize and add the map
+        function initMap() {
+            // The location of the place to mark
+            const placeLocation = { lat: -34.397, lng: 150.644 };
+            
+            // The map, centered at the placeLocation
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: placeLocation,
+            });
+            
+            // The marker, positioned at the placeLocation
+            const marker = new google.maps.Marker({
+                position: placeLocation,
+                map: map,
+            });
+        }
+    </script>
+</head>
+<body>
+    <h3>My Google Maps Demo</h3>
+    <!-- The div element for the map -->
+    <div id="map"></div>
+</body>
+</html>
+&callback=initMap" async defer></script>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        let map;
+
+        // Function to initialize and add the map
+        function initMap() {
+            // The location of the place to mark
+            const placeLocation = { lat: -34.397, lng: 150.644 };
+            
+            // The map, centered at the placeLocation
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 8,
+                center: placeLocation,
+            });
+            
+            // The marker, positioned at the placeLocation
+            const marker = new google.maps.Marker({
+                position: placeLocation,
+                map: map,
+            });
+        }
+    </script>
+</head>
+<body>
+    <h3>My Google Maps Demo</h3>
+    <!-- The div element for the map -->
+    <div id="map"></div>
+</body>
+</html>
